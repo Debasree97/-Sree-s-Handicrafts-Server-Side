@@ -33,16 +33,6 @@ async function run() {
             console.log(homeProducts);
             res.send({allProducts,homeProducts});
         })
-
-        // get: few products
-        app.get("/homeproduct", async(req, res) => {
-            const query = {};
-            const cursor = productCollection.find(query);
-           const homeProducts = await cursor
-              .limit(6)
-              .toArray();
-            res.send(homeProducts);
-        })
     }
     finally {
         // await client.close();
