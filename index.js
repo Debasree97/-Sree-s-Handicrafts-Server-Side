@@ -19,32 +19,30 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
-    try {
-        await client.connect();
-        const database = client.db("Sree'sHandicrafts");
-        const productCollection = database.collection("productsList");
-        
-        // get: all products
-        app.get("/allproduct", async(req, res) => {
-            const query = {};
-            const cursor = productCollection.find(query);
-            const allProducts = await cursor.toArray();
-            const homeProducts = allProducts.slice(3,9);
-            console.log(homeProducts);
-            res.send({allProducts,homeProducts});
-        })
-    }
-    finally {
-        // await client.close();
-    }
+  try {
+    await client.connect();
+    const database = client.db("Sree'sHandicrafts");
+    const productCollection = database.collection("productsList");
+
+    // get: all products
+    app.get("/allproduct", async (req, res) => {
+      const cursor = productCollection.find({});
+      const allProducts = await cursor.toArray();
+      const homeProducts = allProducts.slice(3, 9);
+      console.log(homeProducts);
+      res.send({ allProducts, homeProducts });
+    });
+  } finally {
+    // await client.close();
+  }
 }
 
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-    res.send("running");
+  res.send("running");
 });
 
 app.listen(port, () => {
-    console.log("running from port: ", port);
-})
+  console.log("running from port: ", port);
+});
