@@ -49,14 +49,14 @@ async function run() {
       res.json(result);
     });
 
-    // get: my orders
+    // get: orders
     app.get("/orders", async (req, res) => {
       const cursor = orderCollection.find({});
       const orders = await cursor.toArray();
       res.json(orders);
     });
 
-    // delete order
+    // delete: order
     app.delete("/delete/:id", async (req, res) => {
       const query = { _id: ObjectId(req.params.id) };
       const result = await orderCollection.deleteOne(query);
@@ -68,6 +68,13 @@ async function run() {
       const review = req.body;
       const result = await reviewCollection.insertOne(review);
       res.json(result);
+    });
+
+    // get: review
+    app.get("/homereview", async (req, res) => {
+      const cursor = reviewCollection.find({});
+      const reviews = await cursor.toArray();
+      res.json(reviews);
     });
 
 
