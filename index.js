@@ -39,15 +39,20 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const orderProduct = await productCollection.findOne(query);
       res.send(orderProduct);
+    });
 
-      // post order information
-      app.post("/order", async (req, res) => {
-        const order = req.body;
-        const result = await orderCollection.insertOne(order);
-        res.json(result);
-      });
+    // post order information
+    app.post("/order", async (req, res) => {
+      const order = req.body;
+      const result = await orderCollection.insertOne(order);
+      res.json(result);
+    });
 
-
+    // get: my orders
+    app.get("/orders", async (req, res) => {
+     const cursor = orderCollection.find({});
+     const orders = await cursor.toArray();
+      res.json(orders);
     });
   } finally {
     // await client.close();
@@ -57,7 +62,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("running");
+  res.send("running ");
 });
 
 app.listen(port, () => {
