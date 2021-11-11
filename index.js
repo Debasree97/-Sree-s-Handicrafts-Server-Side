@@ -23,14 +23,31 @@ async function run() {
     await client.connect();
     const database = client.db("Sree'sHandicrafts");
     const productCollection = database.collection("productsList");
+    const orderCollection = database.collection("ordersList");
 
     // get: all products
     app.get("/allproduct", async (req, res) => {
       const cursor = productCollection.find({});
       const allProducts = await cursor.toArray();
       const homeProducts = allProducts.slice(3, 9);
-      console.log(homeProducts);
       res.send({ allProducts, homeProducts });
+    });
+
+    // get: single products
+    app.get("/orderproduct/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const orderProduct = await productCollection.findOne(query);
+      res.send(orderProduct);
+
+      // post order information
+      app.post("/order", async (req, res) => {
+        const order = req.body;
+        const result = await orderCollection.insertOne(order);
+        res.json(result);
+      });
+
+
     });
   } finally {
     // await client.close();
