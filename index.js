@@ -24,6 +24,7 @@ async function run() {
     const database = client.db("Sree'sHandicrafts");
     const productCollection = database.collection("productsList");
     const orderCollection = database.collection("ordersList");
+    const reviewCollection = database.collection("reviewsList");
 
     // get: all products
     app.get("/allproduct", async (req, res) => {
@@ -41,7 +42,7 @@ async function run() {
       res.send(orderProduct);
     });
 
-    // post order information
+    // post: order information
     app.post("/order", async (req, res) => {
       const order = req.body;
       const result = await orderCollection.insertOne(order);
@@ -50,10 +51,26 @@ async function run() {
 
     // get: my orders
     app.get("/orders", async (req, res) => {
-     const cursor = orderCollection.find({});
-     const orders = await cursor.toArray();
+      const cursor = orderCollection.find({});
+      const orders = await cursor.toArray();
       res.json(orders);
     });
+
+    // delete order
+    app.delete("/delete/:id", async (req, res) => {
+      const query = { _id: ObjectId(req.params.id) };
+      const result = await orderCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // post: review
+    app.post("/review", async (req, res) => {
+      const review = req.body;
+      const result = await reviewCollection.insertOne(review);
+      res.json(result);
+    });
+
+
   } finally {
     // await client.close();
   }
