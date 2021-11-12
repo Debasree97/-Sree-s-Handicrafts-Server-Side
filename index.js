@@ -30,7 +30,7 @@ async function run() {
     app.get("/allproduct", async (req, res) => {
       const cursor = productCollection.find({});
       const allProducts = await cursor.toArray();
-      const homeProducts = allProducts.slice(3, 9);
+      const homeProducts = allProducts.slice(0, 6);
       res.send({ allProducts, homeProducts });
     });
 
