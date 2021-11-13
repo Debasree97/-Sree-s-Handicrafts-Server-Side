@@ -25,12 +25,13 @@ async function run() {
     const productCollection = database.collection("productsList");
     const orderCollection = database.collection("ordersList");
     const reviewCollection = database.collection("reviewsList");
+    const adminCollection = database.collection("adminList");
 
     // get: all products
     app.get("/allproduct", async (req, res) => {
       const cursor = productCollection.find({});
       const allProducts = await cursor.toArray();
-      const homeProducts = allProducts.slice(0, 6);
+      const homeProducts = allProducts.slice(1, 7);
       res.send({ allProducts, homeProducts });
     });
 
@@ -77,7 +78,56 @@ async function run() {
       res.json(reviews);
     });
 
+    // post: add product
+    app.post("/addproduct", async (req, res) => {
+      const addedProduct = req.body;
+      const result = await productCollection.insertOne(addedProduct);
+      res.json(result);
+    });
 
+    // get: products
+    app.get("/products", async (req, res) => {
+      const cursor = productCollection.find({});
+      const products = await cursor.toArray();
+      res.json(products);
+    });
+
+    // delete: product
+    app.delete("/deleteproduct/:id", async (req, res) => {
+      const query = { _id: ObjectId(req.params.id) };
+      const result = await productCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // post: admin
+    app.post("/addadmin", async (req, res) => {
+      const admin = req.body;
+      const result = await adminCollection.insertOne(admin);
+      res.json(result);
+    });
+
+    // get: admin
+    app.get("/admin/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      let isAdmin = false;
+      const admin = await adminCollection.findOne(query);
+      if (admin?.email) {
+        isAdmin = true;
+      }
+      res.json({ admin: isAdmin });
+    });
+
+    // update: Status
+    app.put("/status", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const filter = { id: user.id};
+      const updateDoc = { $set: { status: "Shipped" } };
+      const result = await orderCollection.updateOne(filter, updateDoc);
+      console.log(result);
+      res.json(result);
+    });
   } finally {
     // await client.close();
   }
