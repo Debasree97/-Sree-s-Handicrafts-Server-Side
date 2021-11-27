@@ -4,13 +4,13 @@ Live Website Link [Sree's Handicrafts](https://assignment-12-92897.firebaseapp.c
 
 ## Description
 
-A responsive full stack niche website with MERN technology that sells inclusively crocheted items. 
+A responsive full stack niche website built with MERN technology that sells inclusively crocheted items. 
 
 ### Technology
 
 Node JS, Express JS, MongoDB
 
-### Key Points
+### Features
 
 1. There are two general routes: Home, Explore
 2. Further exploration will require login/regestration which is implemented with Firebase Gmail Password authentication. 
