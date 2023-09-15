@@ -1,6 +1,6 @@
 # Sree's Handicrafts
 
-Live Website Link [Sree's Handicrafts](https://assignment-12-92897.firebaseapp.com/).
+Live Website Link [Sree's Handicrafts](https://srees-handicrafts.netlify.app/).
 
 ## Description
 
